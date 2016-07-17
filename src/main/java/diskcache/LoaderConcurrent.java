@@ -1,7 +1,7 @@
 package diskcache;
 
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -18,7 +18,7 @@ public class LoaderConcurrent {
     private final MyCache<CacheObject> cache;
 
     /* helper collections */
-    private final ConcurrentMap<Integer, CacheObject> savedObjects = new ConcurrentHashMap<>();
+    private final ConcurrentMap<Integer, CacheObject> savedObjects = new ConcurrentHashMap<Integer, CacheObject>();
 
     private final int lettersSize = 'Z' -'A' +1;
     private final char[] letters = new char[lettersSize];
@@ -109,12 +109,12 @@ public class LoaderConcurrent {
                 in.close();
             }
         }
-        MyCache<CacheObject> cache = new MyCache<>(cacheMaxSize, swapMaxSize, readBufferSize, swapStrategy);
+        MyCache<CacheObject> cache = new MyCache<CacheObject>(cacheMaxSize, swapMaxSize, readBufferSize, swapStrategy);
         System.out.printf("Loader: create cache with\n");
         System.out.printf("max size: %s\n", cacheMaxSize > 0 ? cacheMaxSize : "default (50)");
-        System.out.printf("max size: %s\n", swapMaxSize > 0 ? swapMaxSize : "default (100)");
-        System.out.printf("max size: %s\n", readBufferSize > 0 ? readBufferSize : "default (5)");
-        System.out.printf("max size: %s\n\n", swapStrategy );
+        System.out.printf("swap size: %s\n", swapMaxSize > 0 ? swapMaxSize : "default (100)");
+        System.out.printf("read buffer size: %s\n", readBufferSize > 0 ? readBufferSize : "default (5)");
+        System.out.printf("swap strategy: %s\n\n", swapStrategy );
 
         /* start loader */
         LoaderConcurrent loader = new LoaderConcurrent(cache);
